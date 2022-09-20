@@ -2,7 +2,7 @@ import express from "express";
 import fs from "fs";
 const app = express()
 app.use(express.json())
-//req.body = jo data body m pass kiya hai usko nikalne ke liye
+
 //req.params = jo data paramter m pass kiya hai usko nikalne ke liye
 //req.query = jo data query(url ke string jo ki define) m pass kiya hai usko nikalne ke liye
 export const authentication = function(req,res,next) {
@@ -54,7 +54,7 @@ app.put("/updatefile",(req,res) =>{
         }
     })
 })
-
+ //yeh mene add kiya hai 
 app.post("/append",(req,res) =>{
     fs.appendFile("cotent.txt","Hello World!",(er) =>{
         console.log("What is issue with ER varible---",er);
