@@ -2,7 +2,7 @@ import express from "express";
 import fs from "fs";
 const app = express()
 app.use(express.json())
-
+ 
 //req.params = jo data paramter m pass kiya hai usko nikalne ke liye
 //req.query = jo data query(url ke string jo ki define) m pass kiya hai usko nikalne ke liye
 export const authentication = function(req,res,next) {
