@@ -1,1 +1,9 @@
-[{"username":"nadim","email":"nadim@gmail.com","age":21,"mobile":8003509968,"password":"$2b$10$fHMWdqdPxx66QBg7k/kMzulDsV.gGBcvQl4Op/7925a4TOnQPzIj2","pan_no":"FROPM3596K","adhaar_no":7328942374,"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiTW9uIFNlcCAyNiAyMDIyIDA5OjM0OjU2IEdNVCswNTMwIChJbmRpYSBTdGFuZGFyZCBUaW1lKSIsInVzZXJJZCI6MSwiaWF0IjoxNjY0MTY1MDk2fQ.eDn9CtvNjQyo2rCzyV7FA8TP9I8-LvDX1CrfJ8GjHOc"}]
+{
+    "username":"nadim",
+    "email":"nadim@gmail.com",
+    "age":12345,
+    "mobile":8003509968,
+    "password":"$2b$10$s25hzhIiQpFbIkeYG1MsUeelslhH.osmTUOZRb9iykm4kLYGCQfSu",
+    "pan_no":"FROPM3596K",
+    "adhaar_no":7328942374,
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiV2VkIFNlcCAyOCAyMDIyIDA4OjU1OjI0IEdNVCswNTMwIChJbmRpYSBTdGFuZGFyZCBUaW1lKSIsInVzZXJJZCI6MTEsImlhdCI6MTY2NDMzNTUyNH0.lzFUZj38R8v8N7FbbC8eadVEt97MOeFsuBfRbdeH7aA"}
