@@ -13,6 +13,10 @@ const UserShema = new mongoose.Schema({
         type:String,
         required:true
     },
+    token:{
+        type:String,
+        required:false
+    },
     mobile:{
         type:Number,
         required:true
