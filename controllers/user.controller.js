@@ -45,23 +45,10 @@ export const signup = async(req,res) =>{
          data:err
       })
    }
-
-   
-   // let bodyData = req.body
-   // bodyData.token = jwt.sign({time:Date(),userId:11},"we-are-genrating-token")
-   // bodyData.password = await bcrypt.hash(bodyData.password, 10);
-   // let convertedToString = JSON.stringify(bodyData)
-   // fs.writeFile("user.json",convertedToString,(err) =>{
-   //    if(err){
-   //       res.end("Something wrong with request.")
-   //    }
-   //    res.end("Your Data successfully inserted.")
-   // })
 }
 
 export const login = async(req,res) =>{
    var getUserData = await User.findOne({email:req.body.email});
-   res.send(getUserData)
    if(getUserData){
       let checkPass = await bcrypt.compare(req.body.password,getUserData.password)
       if(checkPass){
@@ -85,55 +72,30 @@ export const login = async(req,res) =>{
          data:{}
       })
    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   // fs.readFile("user.json",async(err,data) =>{
-   //    var dbData = JSON.parse(data);
-   //    var reqData = req.body;
-   //    if(reqData.email == dbData.email){
-   //       var isValid = await bcrypt.compare(reqData.password,dbData.password)  
-   //       if(isValid){
-   //          dbData.token = jwt.sign({time:Date(),userId:11},"we-are-genrating-token")
-   //          res.send({
-   //             stauts:true,
-   //             msg:"Login Successfully.",
-   //             data:dbData
-   //          })
-   //       }else{
-   //          res.send({
-   //             status:false,
-   //             msg:"Invalid password given.",
-   //             data:{}
-   //          })
-   //       }
-   //    }else{
-   //       res.send({
-   //          status:false,
-   //          msg:"Email does not exist.",
-   //          data:{email:reqData.email}
-   //       });
-   //    }
-   //    res.send([reqData.email,dbData.email])
-   // })
 }
 
+export const getAllUsers = async(req,res) =>{
+   var where  = {}
+   if(req.query.email){
+     where.email = req.query.email
+   }
+   if(req.query.username){
+      where.username = req.query.username
+   }
+   const data = await User.find(where)
+   if(data.length > 0){
+      res.send({
+         status:true,
+         msg:"User data fetch successfully.",
+         data:data
+      })
+   }else{
+      res.send({
+         status:false,
+         msg:"No data found",
+         data:[]
+      })
+   }
+   res.send(data)
+}
 
