@@ -99,3 +99,54 @@ export const getAllUsers = async(req,res) =>{
    res.send(data)
 }
 
+export const update = async(req,res) =>{
+   try{
+   const data = await User.findByIdAndUpdate({_id:req.body.id},req.body)
+   if(data){
+      res.send({
+         status:true,
+         msg:"update successfully.",
+         data:{}
+      })
+   }else{
+      res.send({
+         status:false,
+         msg:"data found with given id or something wrong with update",
+         data:{}
+      })
+   }
+}catch(err){
+   res.send({
+      status:false,
+      msg:"data found with given id or something wrong with update",
+      data:{}
+   })
+}
+}
+
+
+export const deleteUser = async(req,res) =>{
+   try{
+   const data = await User.findByIdAndDelete({_id:req.body.id})
+   if(data){
+      res.send({
+         status:true,
+         msg:"Deleted successfully.",
+         data:{}
+      })
+   }else{
+      res.send({
+         status:false,
+         msg:"data found with given id",
+         data:{}
+      })
+   }
+}catch(err){
+   res.send({
+      status:false,
+      msg:"Something wrong with request.",
+      data:{}
+   })
+}
+}
+
