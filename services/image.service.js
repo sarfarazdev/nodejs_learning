@@ -6,13 +6,7 @@ const imageStorage = multer.diskStorage({
     destination: 'images', 
       filename: (req, file, cb) => {
         console.log("Images-----",file)
-         cb(null,file.fieldname + '_' + Date.now()  + path.extname(file.originalname))
-         //image_1666065566017.png
-            console.log("file.fieldname----",file.fieldname)
-            console.log("Date----", Date.now())
-            console.log("Type----",path.extname(file.originalname))
-            // file.fieldname is name of the field (image)
-            // path.extname get the uploaded file extension
+         cb(null,file.fieldname + '_' + '_product_image_' +Date.now()  + path.extname(file.originalname))
     }
 });
 export const imageUpload = multer({
@@ -21,17 +15,10 @@ export const imageUpload = multer({
       fileSize: 1000000*3 // 1000000 Bytes = 1 MB
     },
     fileFilter(req, file, cb) {
-      if (!file.originalname.match(/\.(png|jpg|jpeg|zip)$/)) { 
+      if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) { 
          // upload only png and jpg format
          return cb(new Error('Please upload a Image'))
        }
      cb(undefined, true)
   }
 }) 
-// export const router = express.Router();
-
-// router.post('/uploadImage', imageUpload.single('image'), (req, res) => {
-//     res.send(req.file)
-// }, (error, req, res, next) => {
-//     res.status(400).send({ error: error.message })
-// })
