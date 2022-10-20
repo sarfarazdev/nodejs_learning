@@ -6,7 +6,7 @@ const imageStorage = multer.diskStorage({
     destination: 'images', 
       filename: (req, file, cb) => {
         console.log("Images-----",file)
-         cb(null,file.fieldname + '_' + '_product_image_' +Date.now()  + path.extname(file.originalname))
+         cb(null,file.fieldname + '_' +Date.now()  + path.extname(file.originalname))
     }
 });
 export const imageUpload = multer({
