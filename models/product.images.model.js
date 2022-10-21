@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const ProductImagesShema = new mongoose.Schema({
+const ProductImages = new mongoose.Schema({
     path:{
         type:String,
         required:true
@@ -13,10 +13,7 @@ const ProductImagesShema = new mongoose.Schema({
         type:String,
         required:true
     },
-    productId:{
-        type:mongoose.Schema.Types.ObjectId,ref:"product",
-        required:true
-    },
+    
     status:{
         type:String,
         enum:["Active","Deactive"],
@@ -25,5 +22,5 @@ const ProductImagesShema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
 	updatedAt: { type: Date, default: Date.now },
 })
-const ProductImages = mongoose.model("product_images", ProductImagesShema);
+// const ProductImages = mongoose.model("product_images", ProductImagesShema);
 export default ProductImages;

@@ -3,5 +3,5 @@ import {imageUpload} from "../services/image.service.js"
 import Express from "express"
 export const product = Express.Router();
 
-product.route("/product/create").post(imageUpload.array('image',10),create);
+product.route("/product/create").post(imageUpload.array('product_image',10),create);
 // product.route("/category/list").get(GetAll);

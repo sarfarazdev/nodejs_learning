@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import ProductImages from "../models/product.images.model.js";
 
 const ProductSchema = new mongoose.Schema({
     name:{
@@ -20,6 +21,7 @@ const ProductSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    images:[ProductImages],
     status:{
         type:String,
         enum:["Active","Deactive"],

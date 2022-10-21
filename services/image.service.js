@@ -3,16 +3,16 @@ import path from "path";
 console.log("Import image service");
 const imageStorage = multer.diskStorage({
     // Destination to store image     
-    destination: 'images', 
+    destination: 'product_upload', 
       filename: (req, file, cb) => {
-        console.log("Images-----",file)
          cb(null,file.fieldname + '_' +Date.now()  + path.extname(file.originalname))
+
     }
 });
 export const imageUpload = multer({
     storage: imageStorage,
     limits: {
-      fileSize: 1000000*3 // 1000000 Bytes = 1 MB
+      fileSize: 1000000*2 // 1000000 Bytes = 1 MB
     },
     fileFilter(req, file, cb) {
       if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) { 

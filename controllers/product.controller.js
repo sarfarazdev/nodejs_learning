@@ -1,11 +1,10 @@
 import Product from "../models/product.model.js";
-import ProductImages from "../models/product.images.model.js";
+// import ProductImages from "../models/product.images.model.js";
 export const create = async(req,res) => {
    
     try{
-    const createProd = await Product.create(req.body);
-    if(createProd){
-        req.files.forEach(async(image,key) => {
+        var imageAllData = [];
+        req.files.forEach((image,key) => {
             var imageType = '';
             if(image.mimetype == 'image/png'){
                 imageType = 'png';
@@ -16,11 +15,15 @@ export const create = async(req,res) => {
                 path:image.filename,
                 fullpath:"localhost:3002/"+image.path,
                 type:imageType,
-                productId:createProd._id,
             }
-           await ProductImages.create(imageData);
+            imageAllData.push(imageData)
+        //    await ProductImages.create(imageData);
            
         });
+        req.body.images = imageAllData
+    const createProd = await Product.create(req.body);
+    if(createProd){
+        
     }
     res.send(createProd);
 }catch(err){
