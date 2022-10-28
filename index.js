@@ -1,7 +1,6 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
-
 import test from "./routes/test.route.js";
 import {user} from "./routes/user.route.js";
 import {category} from "./routes/category.route.js";
@@ -9,9 +8,10 @@ import {subcategory} from "./routes/sub.category.route.js";
 import {product} from "./routes/product.route.js";
 import {reviewrating} from "./routes/review.rating.route.js";
 import connectDB from "./config/db.js"
+import { config } from 'dotenv';
 
 
-
+config();
 const app = express()
 app.use(express.json())
 connectDB();
@@ -23,6 +23,6 @@ app.use(product);
 app.use(reviewrating);
 
 // app.use(router);
-app.listen(3002,(request,response) =>{
+app.listen(process.env.PORT || 3002,(request,response) =>{
     console.log("Yes your server connected with PORT:3002");
 })
