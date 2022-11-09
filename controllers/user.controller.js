@@ -150,3 +150,29 @@ export const deleteUser = async(req,res) =>{
 }
 }
 
+export const ResendOtp = async(req,res) =>{
+      // try{
+         var otp = Math.floor(1000 + Math.random() * 9000);
+         req.body.otp = otp;
+         const data = await User.findByIdAndUpdate({_id:req.body.id},req.body)
+         if(data){
+            res.send({
+               status:true,
+               msg:"Otp resend successfully.",
+               data:{otp}
+            })
+         }else{
+            res.send({
+               status:false,
+               msg:"data not found with given id",
+               data:{}
+            })
+         }
+      // }catch(err){
+      //    res.send({
+      //       status:false,
+      //       msg:"Something went wrong with request.",
+      //       data:{}
+      //    })
+      // }
+}

@@ -13,6 +13,9 @@ const ProductSchema = new mongoose.Schema({
     createdBy:{
         type: mongoose.Schema.Types.ObjectId, ref: 'users' 
     },
+    sub_cate_id:{
+        type: mongoose.Schema.Types.ObjectId, ref: 'subcategories' 
+    },
     is_popular:{
         type:Boolean,
         default:0

@@ -31,3 +31,29 @@ export const create = async(req,res) => {
     });
 }
 } 
+
+
+export const GetAll = async(req,res) =>{
+    try{
+    const data = await Product.find({status:"Active",sub_cate_id:req.params.subCateId}).sort({'_id': -1});
+    if(data.length > 0){
+       res.send({
+          status:true,
+          msg:"Data fetch successsfiully.",
+          data:data
+       })
+    }else{
+       res.send({
+          status:false,
+          msg:"Product not found.",
+          data:[]
+       })
+    }
+ }catch(err){
+    res.send({
+       status:false,
+       msg:"SOmething wrong with request.",
+       data:err
+    })
+ }
+ }

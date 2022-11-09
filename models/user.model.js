@@ -24,7 +24,22 @@ const UserShema = new mongoose.Schema({
     age:{
         type:Number,
         required:false
-    }
+    },
+    email_verified:{
+        type:Boolean,
+        required:false,
+        default:false
+    },
+    number_verified:{
+        type:Boolean,
+        required:false,
+        default:false
+    },
+    otp:{
+        type:Number,
+        required:false
+    },
+
 })
 const User = mongoose.model("users", UserShema);
 export default User;
