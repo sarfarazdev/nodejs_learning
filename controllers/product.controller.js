@@ -35,7 +35,11 @@ export const create = async(req,res) => {
 
 export const GetAll = async(req,res) =>{
     try{
-    const data = await Product.find({status:"Active",sub_cate_id:req.params.subCateId}).sort({'_id': -1});
+        var where = {status:"Active",sub_cate_id:req.params.subCateId}
+        // if(req.query.search){
+        //     where.name = req.query.search;
+        // }
+    const data = await Product.find(where).sort({'_id': -1});
     if(data.length > 0){
        res.send({
           status:true,

@@ -23,8 +23,11 @@ export const signup = async(req,res) =>{
          return;
       }
       else{
+         var otp = Math.floor(1000 + Math.random() * 9000);
+
             const passwordHash = await bcrypt.hash(req.body.password,10)
             req.body.password = passwordHash
+            req.body.otp = otp
             var user = await User.create(req.body);
             if(user){
             user.token = await jwt.sign({time:Date(),userId:user._id},"coaching")
@@ -151,10 +154,10 @@ export const deleteUser = async(req,res) =>{
 }
 
 export const ResendOtp = async(req,res) =>{
-      // try{
+      try{
          var otp = Math.floor(1000 + Math.random() * 9000);
          req.body.otp = otp;
-         const data = await User.findByIdAndUpdate({_id:req.body.id},req.body)
+         const data = await User.findOneAndUpdate({mobile:req.body.mobile_no},req.body)
          if(data){
             res.send({
                status:true,
@@ -168,11 +171,62 @@ export const ResendOtp = async(req,res) =>{
                data:{}
             })
          }
-      // }catch(err){
-      //    res.send({
-      //       status:false,
-      //       msg:"Something went wrong with request.",
-      //       data:{}
-      //    })
-      // }
+      }catch(err){
+         res.send({
+            status:false,
+            msg:"Something went wrong with request.",
+            data:{}
+         })
+      }
+}
+
+export const VerifyOtp = async(req,res) =>{
+      const checkOtp = await User.findOne({mobile:req.body.mobile_no,otp:req.body.otp})
+      if(checkOtp){
+         var dataToBeUpdate = {};
+         dataToBeUpdate.number_verified = true;
+         await User.findByIdAndUpdate({_id:checkOtp._id},dataToBeUpdate)
+         checkOtp.number_verified = true;
+         res.send({
+            status:true,
+            msg:"Otp Verified succesfully.",
+            data:checkOtp
+         });return;
+      }else{
+         res.send({
+            status:false,
+            msg:"Invalid Otp or mobile no. given.",
+            data:{}
+         });return;
+      }
+}
+
+export const ResetPassword = async(req,res) =>{
+   const checkUserExist = await User.findOne({_id:req.body._id})
+   if(checkUserExist){
+      let checkPass = await bcrypt.compare(req.body.old_pass,checkUserExist.password)
+      if(checkPass){
+            var dataToBeUpdate = {};
+            const passwordHash = await bcrypt.hash(req.body.new_pass,10)
+            dataToBeUpdate.password = passwordHash;
+            await User.findByIdAndUpdate({_id:checkUserExist._id},dataToBeUpdate)
+         res.send({
+            status:true,
+            msg:"Password Reset Succesfully",
+            data:checkUserExist
+         })
+      }else{
+         res.send({
+            status:false,
+            msg:"Invalid Old Password given.",
+            data:{}
+         })
+      }
+   }else{
+      res.send({
+         status:false,
+         msg:"User not found with given ID.",
+         data:{}
+      });return;
+   }
 }
