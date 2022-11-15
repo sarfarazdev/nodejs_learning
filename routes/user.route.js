@@ -1,4 +1,4 @@
-import {signup,login,getAllUsers, update, deleteUser,ResendOtp,VerifyOtp,ResetPassword} from "../controllers/user.controller.js";
+import {signup,login,getAllUsers, update, deleteUser,ResendOtp,VerifyOtp,ResetPassword,InsertBulkUsers,ImageUpload} from "../controllers/user.controller.js";
 import { authentication } from "../middleware/authentication.js";
 import Express from "express";
 export const user = Express.Router()
@@ -10,3 +10,5 @@ user.route("/user/delete").delete(authentication,deleteUser);
 user.route("/user/resend-otp").post(ResendOtp);
 user.route("/user/verify-otp").post(VerifyOtp);
 user.route("/user/reset-password").post(ResetPassword);
+user.route("/user/import").post(InsertBulkUsers);
+user.route("/user/image-upload").post(ImageUpload);
