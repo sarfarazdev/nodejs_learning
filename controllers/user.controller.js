@@ -235,8 +235,49 @@ export const ResetPassword = async (req, res) => {
 
 export const InsertBulkUsers = async (req, res) => {
    const jsonArray = await csv().fromFile("coaching_users.csv");
-   const insertData = await User.insertMany(jsonArray)
-   res.send(insertData); return;
+   var rejected = []
+   var success = 0
+   jsonArray.forEach(async(value,key) => {
+      const IsEmailExist = await User.findOne({ email: value.email })
+      const IsMobileExist = await User.findOne({ mobile: value.mobile })
+      if (IsEmailExist) {
+         rejected.push({
+            email: value.email,
+            reason: "Email already exist.",
+            key: key+1
+         });
+      } else if (IsMobileExist) {
+         rejected.push({
+            email: value.email,
+            mobile: value.mobile,
+            reason: "Mobile already exist.",
+            key: key+1
+         });
+      }
+      else {
+         const passwordHash = await bcrypt.hash(value.password, 10)
+         value.password = passwordHash
+         var user = await User.create(value);
+         if (user) {
+            success+1;
+         }
+      }
+   });
+   if(success == 0){
+      res.send({
+         status:false,
+         msg:"No data inserted.",
+         rejected_data:rejected,
+         success:success,
+      })
+   }else{
+      res.send({
+         status:false,
+         msg:"Data inserted succefully.",
+         rejected_data:rejected,
+         success:success,
+      })
+   }
 }
 export const ImageUpload = async (req, res) => {
    var imgBase64 = req.body.image;
