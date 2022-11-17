@@ -234,7 +234,9 @@ export const ResetPassword = async (req, res) => {
 }
 
 export const InsertBulkUsers = async (req, res) => {
-   const jsonArray = await csv().fromFile("coaching_users.csv");
+   // console.log("Excel-0------",req.file.path);
+   // res.end("END");return;
+   const jsonArray = await csv().fromFile(req.file.path);
    var rejected = []
    var success = 0
    jsonArray.forEach(async(value,key) => {
@@ -263,23 +265,26 @@ export const InsertBulkUsers = async (req, res) => {
          }
       }
    });
-   if(success == 0){
-      res.send({
-         status:false,
-         msg:"No data inserted.",
-         rejected_data:rejected,
-         success:success,
-      })
-   }else{
-      res.send({
-         status:false,
-         msg:"Data inserted succefully.",
-         rejected_data:rejected,
-         success:success,
-      })
-   }
+   setTimeout(() => {
+      if(success == 0){
+         res.send({
+            status:false,
+            msg:"No data inserted.",
+            success:success,
+            rejected_data:rejected,
+         })
+      }else{
+         res.send({
+            status:false,
+            msg:"Data inserted succefully.",
+            success:success,
+            rejected_data:rejected,
+         })
+      }
+    }, "1000")
+  
 }
-export const ImageUpload = async (req, res) => {
+export const ImageUploadUser = async (req, res) => {
    var imgBase64 = req.body.image;
    var lowerCase = imgBase64.toLowerCase();
    var extension = undefined;
