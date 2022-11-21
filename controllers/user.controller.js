@@ -232,57 +232,76 @@ export const ResetPassword = async (req, res) => {
       }); return;
    }
 }
-
+function importUserRes(uName, email, reason, key) {
+   return {
+      username: uName,
+      email: email,
+      reason: reason,
+      key: key,
+   
+   }
+}
 export const InsertBulkUsers = async (req, res) => {
-   // console.log("Excel-0------",req.file.path);
-   // res.end("END");return;
    const jsonArray = await csv().fromFile(req.file.path);
    var rejected = []
    var success = 0
-   jsonArray.forEach(async(value,key) => {
+   jsonArray.forEach(async (value, key) => {
+   
       const IsEmailExist = await User.findOne({ email: value.email })
       const IsMobileExist = await User.findOne({ mobile: value.mobile })
-      if (IsEmailExist) {
-         rejected.push({
-            email: value.email,
-            reason: "Email already exist.",
-            key: key+1
-         });
+      if (!value.email) {
+         rejected.push(importUserRes(value.username, value.email, "Email can not be blenk.", key ))
+      } else if (!value.password) {
+         rejected.push(importUserRes(value.username, value.email, "Password can not be blenk.", key ))
+      }
+      else if (!value.username) {
+         rejected.push(importUserRes(value.username, value.email, "Username can not be blenk.", key ))
+      }
+      else if (!value.number) {
+         rejected.push(importUserRes(value.username, value.email, "Mobile no. can not be blenk.", key ))
+
+      }
+     
+      else if (IsEmailExist) {
+         rejected.push(importUserRes(value.username, value.email, "Email already taken.", key ))
       } else if (IsMobileExist) {
-         rejected.push({
-            email: value.email,
-            mobile: value.mobile,
-            reason: "Mobile already exist.",
-            key: key+1
-         });
+         rejected.push(importUserRes(value.username, value.email, "Mobile no. already taken.", key ))
       }
       else {
+         console.log("cheak-------",value);
+         value.mobile=value.number
          const passwordHash = await bcrypt.hash(value.password, 10)
          value.password = passwordHash
          var user = await User.create(value);
+         console.log(user);
          if (user) {
-            success+1;
+            success++;
+            console.log("success----", success)
          }
       }
+
    });
    setTimeout(() => {
-      if(success == 0){
+      if (success == 0) {
          res.send({
-            status:false,
-            msg:"No data inserted.",
-            success:success,
-            rejected_data:rejected,
+            status: false,
+            msg: "No data inserted.",
+            success: success,
+            rejected_data: rejected,
+            total:jsonArray.length
          })
-      }else{
+      } else {
          res.send({
-            status:false,
-            msg:"Data inserted succefully.",
-            success:success,
-            rejected_data:rejected,
+            status: false,
+            msg: "Data inserted succefully.",
+            success: success,
+            rejected_data: rejected,
+            total:jsonArray.length
+            
          })
       }
-    }, "1000")
-  
+   }, "1000")
+
 }
 export const ImageUploadUser = async (req, res) => {
    var imgBase64 = req.body.image;
@@ -298,18 +317,18 @@ export const ImageUploadUser = async (req, res) => {
    }
    var ImagePath = "product_upload" + "/" + Date.now() + "." + extension;
    fs.writeFile(ImagePath, base64Data, 'base64', function (err) {
-      console.log("err----",err)
-      if(err){
+      console.log("err----", err)
+      if (err) {
          res.send({
-            status:false,
-            msg:"Invalid image uploaded.",
-            data:{},
+            status: false,
+            msg: "Invalid image uploaded.",
+            data: {},
          });
-      }else{
+      } else {
          res.send({
-            status:true,
-            msg:"image uploaded succesfully.",
-            data:ImagePath,
+            status: true,
+            msg: "image uploaded succesfully.",
+            data: ImagePath,
          });
       }
    });
