@@ -69,7 +69,14 @@ export const GetDataByAgrigate = async (req, res) => {
 
          }
       },
-
+      { $limit: Number(10) },
+      {
+         $group:
+    {
+      _id: {name: "$name" },
+      // totalEmployee: { $sum: 1 },
+    }
+      }
    ]);
    res.send(data)
 }
