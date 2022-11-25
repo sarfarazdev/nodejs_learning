@@ -48,6 +48,10 @@ export const GetAll = async (req, res) => {
 }
 
 export const GetDataByAgrigate = async (req, res) => {
+   
+      var pagination = req.query.page*2
+
+      console.log("pagination-----",pagination);
    const data = await Category.aggregate([
       {
          $match: {
@@ -62,21 +66,22 @@ export const GetDataByAgrigate = async (req, res) => {
             "as": "subcategories"
          }
       },
-      {
-         "$unwind": {
-            path: "$subcategories",
-            preserveNullAndEmptyArrays: true
+      // {
+      //    "$unwind": {
+      //       path: "$subcategories",
+      //       preserveNullAndEmptyArrays: true
 
-         }
-      },
-      { $limit: Number(10) },
-      {
-         $group:
-    {
-      _id: {name: "$name" },
-      // totalEmployee: { $sum: 1 },
-    }
-      }
+      //    }
+      // },
+      { $skip: pagination },
+      { $limit: Number(2) },
+   //    {
+   //       $group:
+   //  {
+   //    _id: {name: "$name" },
+   //    total: { $sum: 1 },
+   //  }
+   //    }
    ]);
    res.send(data)
 }
