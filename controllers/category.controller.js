@@ -51,7 +51,7 @@ export const GetDataByAgrigate = async (req, res) => {
    const data = await Category.aggregate([
       {
          $match: {
-            status: req.body.status
+            name: { $regex: req.query.search }
          },
       },
       {
@@ -80,4 +80,30 @@ export const GetDataByAgrigate = async (req, res) => {
    //    }
    ]);
    res.send(data)
+}
+
+
+export const deleteCate = async (req, res) => {
+   try {
+      const data = await Category.destroy({ _id: req.body.id })
+      if (data) {
+         res.send({
+            status: true,
+            msg: "Deleted successfully.",
+            data: {}
+         })
+      } else {
+         res.send({
+            status: false,
+            msg: "data found with given id",
+            data: {}
+         })
+      }
+   } catch (err) {
+      res.send({
+         status: false,
+         msg: "Something wrong with request.",
+         data: {}
+      })
+   }
 }
