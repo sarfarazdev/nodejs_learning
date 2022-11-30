@@ -62,21 +62,22 @@ export const GetDataByAgrigate = async (req, res) => {
             "as": "subcategories"
          }
       },
-      {
-         "$unwind": {
-            path: "$subcategories",
-            preserveNullAndEmptyArrays: true
+      // {
+      //    "$unwind": {
+      //       path: "$subcategories",
+      //       preserveNullAndEmptyArrays: true
 
-         }
-      },
-      { $limit: Number(10) },
-      {
-         $group:
-    {
-      _id: {name: "$name" },
-      // totalEmployee: { $sum: 1 },
-    }
-      }
+      //    }
+      // },
+      
+   //    { $limit: Number(10) },
+   //    {
+   //       $group:
+   //  {
+   //    _id: {name: "$name" },
+   //    // totalEmployee: { $sum: 1 },
+   //  }
+   //    }
    ]);
    res.send(data)
 }
