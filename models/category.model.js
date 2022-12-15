@@ -10,6 +10,10 @@ const CategoryShema = new mongoose.Schema({
         enum:["Active","Deactive"],
         default:"Active"
     },
+    deletedAt:{
+        type:Boolean,
+        default:0
+    },
     createdAt: { type: Date, default: Date.now },
 	updatedAt: { type: Date, default: Date.now },
 })

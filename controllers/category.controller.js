@@ -24,7 +24,7 @@ export const create = async (req, res) => {
 
 export const GetAll = async (req, res) => {
    try {
-      const data = await Category.find({ status: "Active" });
+      const data = await Category.find({ status: "Active",deletedAt: false });
       if (data.length > 0) {
          res.send({
             status: true,
@@ -85,7 +85,10 @@ export const GetDataByAgrigate = async (req, res) => {
 
 export const deleteCate = async (req, res) => {
    try {
-      const data = await Category.destroy({ _id: req.body.id })
+      var dataToBeUpdate = {};
+      dataToBeUpdate.deletedAt = 1;
+      const data = await Category.findByIdAndUpdate({ _id: req.body.id }, dataToBeUpdate)
+
       if (data) {
          res.send({
             status: true,
