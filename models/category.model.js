@@ -14,8 +14,8 @@ const CategoryShema = new mongoose.Schema({
         type:Boolean,
         default:0
     },
-    createdAt: { type: Date, default: Date.now },
-	updatedAt: { type: Date, default: Date.now },
-})
+    // createdAt: { type: Date, default: Date.now },
+	// updatedAt: { type: Date, default: Date.now },
+},{timestamps:true})
 const Category = mongoose.model("categories", CategoryShema);
 export default Category;

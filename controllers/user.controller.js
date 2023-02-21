@@ -89,7 +89,7 @@ export const getAllUsers = async (req, res) => {
    if (req.query.username) {
       where.username = req.query.username
    }
-   const data = await User.find(where)
+   const data = await User.find(where,{password:0})
    if (data.length > 0) {
       res.send({
          status: true,
@@ -326,12 +326,14 @@ export const ImageUploadUser = async (req, res) => {
             msg: "Invalid image uploaded.",
             data: {},
          });
+         return;
       } else {
          res.send({
             status: true,
             msg: "image uploaded succesfully.",
             data: ImagePath,
          });
+         return;
       }
    });
 }

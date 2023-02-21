@@ -1,6 +1,6 @@
 import express from "express";
 import fs from "fs";
-import path from "path";
+import moment from "moment";
 import test from "./routes/test.route.js";
 import {user} from "./routes/user.route.js";
 import {category} from "./routes/category.route.js";
@@ -11,6 +11,8 @@ import connectDB from "./config/db.js"
 import { config } from 'dotenv';
 import { createServer } from "http";
 import { Server } from "socket.io";
+import bodyParser from "body-parser";
+
 
 
 config();
@@ -54,6 +56,8 @@ app.use(user);
 app.use(subcategory);
 app.use(product);
 app.use(reviewrating);
+app.use('/product_upload', express.static('product_upload'));
+console.log(moment(Date.now()).format('MM/ddd/YY H:m:s a'));
 
 // app.use(router);
 app.listen(process.env.PORT || 3004,(request,response) =>{

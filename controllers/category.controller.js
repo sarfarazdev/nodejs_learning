@@ -49,11 +49,11 @@ export const GetAll = async (req, res) => {
 
 export const GetDataByAgrigate = async (req, res) => {
    const data = await Category.aggregate([
-      {
-         $match: {
-            name: { $regex: req.query.search }
-         },
-      },
+      // {
+         // $match: {
+         //    name: { $regex: req.query.search }
+         // },
+      // },
       {
          "$lookup": {
             "from": "subcategories",
@@ -62,6 +62,9 @@ export const GetDataByAgrigate = async (req, res) => {
             "as": "subcategories"
          }
       },
+      // {
+      //    $count: "product_on_the_budget"
+      //    }
       // {
       //    "$unwind": {
       //       path: "$subcategories",
