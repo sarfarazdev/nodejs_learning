@@ -54,8 +54,10 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
    var getUserData = await User.findOne({ email: req.body.email });
+   console.log(getUserData);
    if (getUserData) {
       let checkPass = await bcrypt.compare(req.body.password, getUserData.password)
+      console.log(checkPass);
       if (checkPass) {
          getUserData.token = await jwt.sign({ time: Date(), userId: getUserData._id }, "coaching")
          res.send({

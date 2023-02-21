@@ -12,4 +12,4 @@ user.route("/user/resend-otp").post(ResendOtp);
 user.route("/user/verify-otp").post(VerifyOtp);
 user.route("/user/reset-password").post(ResetPassword);
 user.route("/user/import").post(ExcelUpload.single("excel_data"),InsertBulkUsers);
-user.route("/user/image-upload",).post(ImageUploadUser);
+user.route("/user/image-upload").post(ImageUploadUser);

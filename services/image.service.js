@@ -1,6 +1,5 @@
 import multer from "multer";
 import path from "path";
-console.log("Import image service");
 const imageStorage = multer.diskStorage({
     // Destination to store image     
     destination: 'product_upload', 
@@ -9,6 +8,27 @@ const imageStorage = multer.diskStorage({
 
     }
 });
+
+
+const ii = multer.diskStorage({
+  destination:"upload",
+  filename:(req,res,cb)=>{
+  cb(null,file.filename+' '+Date.now()+path.extname(file.originalname))
+  }
+})
+
+export const dsds= multer({
+storage:ii,
+limits:{
+  fileSize:1000000*3
+},
+fileFilter(req,file,cb){
+  if(!file.originalname.match(/\.(png|jpg|jpeg)$/)){
+    return cb(new Error("plz upload image"))
+  }
+  cb(undefined,true)
+}
+})
 export const imageUpload = multer({
     storage: imageStorage,
     limits: {
